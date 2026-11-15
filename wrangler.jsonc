@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "pingye-preview",
-  "compatibility_date": "2026-11-16",
+  "compatibility_date": "2026-11-15",
   "workers_dev": false,
   "assets": { "directory": "./dist" }
 }

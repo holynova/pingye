@@ -6,7 +6,7 @@
 
 Turn photos, projects, and milestones into a personal Bento poster. Switch layouts and keep editing the same content.
 
-**在线体验 / Cloudflare Demo（待上线验证）** · [xiaosang.cc/pingye](https://xiaosang.cc/pingye/) · [GitHub Repo](https://github.com/holynova/pingye)
+**[在线体验 / Cloudflare Demo](https://xiaosang.cc/pingye/)** · [GitHub Repo](https://github.com/holynova/pingye)
 
 ![拼页桌面编辑器。左侧是卡片，中央是个人海报，右侧是主题设置。](./assets/screenshot.png)
 
