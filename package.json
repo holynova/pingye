@@ -1,0 +1,17 @@
+{
+  "name": "pingye",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A browser-based Bento poster editor for personal introductions and portfolios.",
+  "repository": "https://github.com/holynova/pingye",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check src/app.js && npm run build",
+    "dev": "npm run build && wrangler dev --config wrangler.jsonc",
+    "deploy:check": "npm run build && wrangler deploy --dry-run --config wrangler.jsonc"
+  },
+  "devDependencies": {
+    "wrangler": "4.162.0"
+  }
+}
