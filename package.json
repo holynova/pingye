@@ -1,6 +1,6 @@
 {
   "name": "pingye",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "A browser-based Bento poster editor for personal introductions and portfolios.",

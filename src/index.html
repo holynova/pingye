@@ -186,6 +186,40 @@ body[data-ui=dark] .action{color:#211c13}
   .crop-handle[data-corner=se]{right:-21px;bottom:-21px}
   .crop-handle[data-corner=sw]{left:-21px;bottom:-21px}
 }
+
+.examples-action{margin-right:3px;background:var(--accent-soft);color:var(--accent);font-weight:650}
+.examples-action:hover{background:color-mix(in srgb,var(--accent-soft) 78%,var(--line))}
+.examples-action svg{width:15px;height:15px}
+.examples-dialog{width:min(880px,calc(100% - 28px));max-height:calc(100dvh - 28px);padding:0;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:15px;box-shadow:0 20px 70px #16171138;overscroll-behavior:contain}
+.examples-dialog::backdrop{background:#17171170}
+.examples-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.examples-header h2{font-size:16px;font-weight:720;margin:0}
+.examples-header .examples-own{border:1px solid var(--line);font-weight:640}
+.examples-own[aria-current=true]{background:var(--accent-soft);color:var(--accent)}
+.examples-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:15px 16px 17px}
+.example-card{display:block;width:100%;min-width:0;padding:5px;background:var(--paper);border:1px solid var(--line);border-radius:10px;text-align:left}
+.example-card:hover,.example-card[aria-current=true]{border-color:var(--accent)}
+.example-card[aria-current=true]{background:var(--accent-soft)}
+.example-cover{display:block;position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:6px}
+.example-cover canvas{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.example-name{display:block;padding:8px 4px 4px;font-size:12px;font-weight:650}
+@media(max-width:600px){
+  .examples-action{margin:0;gap:3px}
+  .examples-action svg{display:none}
+  .examples-header{padding:10px}
+  .examples-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:10px;gap:8px}
+  .examples-dialog{width:calc(100% - 16px)}
+}
+
+@media(min-width:601px) and (max-width:1240px){
+  .canvas-bar{height:70px}
+  .template-tabs{display:grid;grid-template-columns:repeat(5,minmax(max-content,1fr));gap:1px}
+  .template-tabs button{padding:5px 6px}
+}
+@media(max-width:600px){
+  .canvas-bar{height:82px}
+  .presets{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 </style>
 /* ANALYTICS */
 </head>
@@ -230,6 +264,18 @@ body[data-ui=dark] .action{color:#211c13}
       <button type="button" class="action" data-crop="apply">应用裁剪</button>
     </div>
   </div>
+</dialog>
+<dialog class="examples-dialog" aria-labelledby="examples-title">
+  <div class="examples-header">
+    <h2 id="examples-title">样例</h2>
+    <div class="group">
+      <button type="button" class="plain examples-own" data-example="mine">我的稿件</button>
+      <button type="button" class="icon" data-close-examples aria-label="关闭样例" autofocus>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="examples-grid"></div>
 </dialog>
 <script>/* APP */</script>
 </body>

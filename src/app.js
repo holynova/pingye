@@ -13,10 +13,18 @@ const original = [
   {id:'link', type:'link', title:'lincen.example', subtitle:'作品集与合作', tone:'ink'}
 ];
 
+const examples = [
+  .../* EXAMPLES */ [],
+  {id:'designer',name:'产品设计师',template:0,ratio:'wide',cards:original}
+];
+const examplesById = new Map(examples.map(example=>[example.id,example]));
+
 const themes = {
   clay: {name:'砂岩', bg:'#e8e1d3', paper:'#faf4e7', soft:'#ddd7c4', accent:'#ac3b22', accentInk:'#fff7e9', ink:'#2d2a22', text:'#252119', quiet:'#625747'},
   moss: {name:'苔绿', bg:'#dde4d1', paper:'#f4f4e9', soft:'#c8d4b9', accent:'#3b5237', accentInk:'#f6f9e9', ink:'#273c29', text:'#263128', quiet:'#53664c'},
   ink: {name:'暗夜', bg:'#202723', paper:'#343e37', soft:'#445448', accent:'#e5ce73', accentInk:'#262c22', ink:'#141c17', text:'#fff6e4', quiet:'#d3d9c8'},
+  plum: {name:'酒红', bg:'#2c1724', paper:'#483043', soft:'#5c3a51', accent:'#ad4b6f', accentInk:'#fff6f9', ink:'#201420', text:'#fff2f7', quiet:'#e5becf'},
+  slate: {name:'江蓝', bg:'#dbe8f0', paper:'#f2f7fa', soft:'#bed6e6', accent:'#2e586e', accentInk:'#f5fbff', ink:'#233a4a', text:'#233b49', quiet:'#486472'},
   rose: {name:'珊瑚', bg:'#eed5cb', paper:'#fff2e5', soft:'#eed0b8', accent:'#a3312d', accentInk:'#fff4e5', ink:'#562c28', text:'#462722', quiet:'#785148'}
 };
 
@@ -71,13 +79,32 @@ const templates = [
   {name:'顶部横幅', theme:'ink', description:'横幅先交代身份，再看作品与数据。'},
   {name:'叠放拼贴', theme:'rose', description:'相片与便笺带角度叠放。'},
   {name:'数字焦点', theme:'ink', description:'把成果数字放到显眼的位置。'},
-  {name:'错位层叠', theme:'moss', description:'作品和数字卡错位叠放。'}
+  {name:'错位层叠', theme:'moss', description:'作品和数字卡错位叠放。'},
+  {name:'产品发布', theme:'plum', description:'让产品图占据中心，用两侧卡片展示功能和规格。'},
+  {name:'城市导览', theme:'slate', description:'用城市主图开场，接着展示地标、行程和路线。'},
+  {name:'参数速览', theme:'clay', description:'为产品或书籍突出关键参数与简介。'}
 ];
 
 const phoneSlots = [
   [[0,3,8,8],[0,0,7,3],[7,0,5,3],[8,3,4,4],[8,7,4,4],[0,11,7,3],[7,11,5,5],[0,14,7,2]],
   [[0,0,7,9],[7,0,5,5],[7,5,5,4],[0,9,3,3],[3,9,3,3],[0,12,7,4],[6,9,6,3],[7,12,5,4]],
   [[0,0,12,5],[0,5,7,4],[7,5,5,4],[0,13,3,3],[3,13,3,3],[6,13,6,3],[0,9,7,4],[7,9,5,4]]
+];
+
+
+const topicSlots = [
+  {
+    wide:[[3,0,6,8],[0,0,3,3],[9,0,3,3],[0,3,3,2],[9,3,3,2],[0,5,3,3],[9,5,3,2],[9,7,3,1]],
+    phone:[[0,0,12,6],[0,6,6,3],[6,6,6,3],[0,9,6,3],[6,9,6,3],[0,12,4,4],[4,12,4,4],[8,12,4,4]]
+  },
+  {
+    wide:[[0,0,8,4],[8,0,4,4],[0,4,5,4],[5,4,2,2],[7,4,2,2],[5,6,4,2],[9,4,3,2],[9,6,3,2]],
+    phone:[[0,0,12,5],[0,5,7,4],[7,5,5,4],[0,9,4,3],[4,9,4,3],[0,12,8,4],[8,9,4,3],[8,12,4,4]]
+  },
+  {
+    wide:[[0,0,5,8],[5,0,4,4],[9,0,3,4],[5,4,2,2],[7,4,2,2],[5,6,4,2],[9,4,3,2],[9,6,3,2]],
+    phone:[[0,0,7,6],[7,0,5,6],[0,6,4,3],[4,6,4,3],[8,6,4,3],[0,9,12,4],[0,13,7,3],[7,13,5,3]]
+  }
 ];
 
 const kinds = {
@@ -92,8 +119,13 @@ const kinds = {
 const stage = document.querySelector('#stage');
 const status = document.querySelector('.status');
 const storageKey = 'bento-editor-v2';
-const revisions = {undo:[], redo:[]};
-let draft = readDraft();
+const activeKey = storageKey+'-active';
+const histories = new Map();
+const openDrafts = new Map();
+let activeDocument = readActiveDocument();
+let revisions = historyFor(activeDocument);
+let draft = readDraft(activeDocument);
+const examplesDialog = document.querySelector('.examples-dialog');
 let selected = null;
 let zoom = 1;
 let viewScale = 1;
@@ -116,11 +148,39 @@ function blankDraft() {
   return {cards:clone(original),template:0,ratio:'wide',themeOverrides:{}};
 }
 
-function readDraft() {
+function readActiveDocument() {
   try {
-    const stored = JSON.parse(localStorage.getItem(storageKey));
+    const id = localStorage.getItem(activeKey);
+    if (examplesById.has(id)) return id;
+  } catch {}
+  return 'mine';
+}
+
+function historyFor(id) {
+  if (!histories.has(id)) histories.set(id,{undo:[],redo:[]});
+  return histories.get(id);
+}
+
+function documentKey(id) {
+  return id==='mine'?storageKey:storageKey+'-example-'+id;
+}
+
+function exampleDraft(example) {
+  return {
+    cards:clone(example.cards),
+    template:example.template,
+    ratio:example.ratio,
+    themeOverrides:{...example.themeOverrides}
+  };
+}
+
+function readDraft(id) {
+  const example=examplesById.get(id);
+  try {
+    const stored = JSON.parse(localStorage.getItem(documentKey(id)));
     if (stored && Array.isArray(stored.cards) && templates[stored.template] && stored.themeOverrides &&
         (stored.ratio==='wide' || stored.ratio==='phone')) return stored;
+    if (example) return exampleDraft(example);
     const legacy = JSON.parse(localStorage.getItem('bento-prototype-v1-0'));
     if (legacy?.cards?.length && legacy.order?.length) {
       const result = blankDraft();
@@ -130,17 +190,17 @@ function readDraft() {
       return result;
     }
   } catch {}
-  return blankDraft();
+  return example?exampleDraft(example):blankDraft();
 }
 
 function current() { return draft.template; }
-function activeTheme() { return draft.themeOverrides[current()] || templates[current()].theme; }
-function shape() { return draft.ratio==='wide' ? {w:1152,h:648} : {w:648,h:1152}; }
+function activeTheme(doc=draft) { return doc.themeOverrides[doc.template] || templates[doc.template].theme; }
+function shape(doc=draft) { return doc.ratio==='wide' ? {w:1152,h:648} : {w:648,h:1152}; }
 function cardById(id) { return draft.cards.find(card=>card.id===id); }
 
 function flushDraft() {
   clearTimeout(saveTimer);
-  try { localStorage.setItem(storageKey,JSON.stringify(draft)); }
+  try { localStorage.setItem(documentKey(activeDocument),JSON.stringify(draft)); }
   catch { notice('浏览器存储空间不足。当前稿件仍可导出。'); }
 }
 
@@ -166,11 +226,9 @@ function createImage(key,source) {
   });
 }
 
-function restoreImages() {
-  return Promise.all([
-    ...Object.entries(imageSources).map(([key,source])=>createImage(key,source)),
-    ...draft.cards.filter(card=>card.upload && card.image).map(card=>createImage(card.image,card.upload))
-  ]);
+function restoreUploads(doc) {
+  return Promise.all(doc.cards.filter(card=>card.upload && card.image)
+    .map(card=>createImage(card.image,card.upload)));
 }
 
 function remember(before) {
@@ -285,8 +343,8 @@ function leftGrid(output, rest, region, gap, portrait) {
   }
 }
 
-function metricGrid(output,rest,region,gap,portrait) {
-  const metric=rest.find(index=>draft.cards[index].type==='metric');
+function metricGrid(output,rest,region,gap,portrait,cards) {
+  const metric=rest.find(index=>cards[index].type==='metric');
   if (metric===undefined) {
     leftGrid(output,rest,region,gap,portrait);
     return;
@@ -299,7 +357,7 @@ function metricGrid(output,rest,region,gap,portrait) {
   if (body) pack(output,support,body,gap);
 }
 
-function styleCollage(output,index,portrait) {
+function styleCollage(output,index,portrait,cards) {
   const angles=[-5,4,-3,6,-3,3,5,-2];
   output.forEach((rect,i)=>{
     if (index===3) {
@@ -312,7 +370,7 @@ function styleCollage(output,index,portrait) {
       rect.x+=bleed+((1-cos)*rect.w+sin*rect.h)/2;
       rect.y+=bleed+((1-cos)*rect.h-sin*rect.w)/2;
       rect.r=angle;
-      rect.z=draft.cards[i].type==='metric'?2:i===0?0:1;
+      rect.z=cards[i].type==='metric'?2:i===0?0:1;
     } else if (index===5 && i>0 && i%3===0) {
       const bleed=Math.min(10,Math.min(rect.w,rect.h)*.055);
       rect.x-=bleed; rect.y-=bleed;
@@ -322,16 +380,48 @@ function styleCollage(output,index,portrait) {
   });
 }
 
-function layoutPoster() {
-  const {w,h}=shape();
-  const count=draft.cards.length;
-  const index=current();
-  const portrait=draft.ratio==='phone';
+function productGrid(output,rest,region,gap,portrait) {
+  if (portrait || rest.length<2) {
+    const [featured,details]=divided(region,portrait?'h':'w',.58,gap);
+    pack(output,[0],featured,gap);
+    pack(output,rest,details,gap);
+    return;
+  }
+  const [left,remaining]=divided(region,'w',.23,gap);
+  const [featured,right]=divided(remaining,'w',.70,gap);
+  const split=Math.ceil(rest.length/2);
+  pack(output,rest.slice(0,split),left,gap);
+  pack(output,[0],featured,gap);
+  pack(output,rest.slice(split),right,gap);
+}
+
+function specsGrid(output,rest,region,gap,portrait,cards) {
+  const [featured,details]=divided(region,portrait?'h':'w',portrait?.40:.45,gap);
+  const facts=rest.filter(i=>cards[i].type==='metric');
+  const other=rest.filter(i=>cards[i].type!=='metric');
+  pack(output,[0],featured,gap);
+  if (!facts.length || !other.length) {
+    pack(output,rest,details,gap);
+    return;
+  }
+  const [numbers,support]=divided(details,'h',.52,gap);
+  pack(output,facts,numbers,gap);
+  pack(output,other,support,gap);
+}
+
+function layoutPoster(doc=draft) {
+  const {w,h}=shape(doc);
+  const count=doc.cards.length;
+  const index=doc.template;
+  const portrait=doc.ratio==='phone';
   if (!count) return [];
   if (count===8 && index<3) {
     return (portrait?phoneSlots:slots)[index].map(slot=>slotBox(slot,w,h,portrait?16:8));
   }
-  if (count===8 && !portrait && index>=3 && (index!==4 || draft.cards[3].type==='metric')) {
+  if (count===8 && index>=6) {
+    return topicSlots[index-6][doc.ratio].map(slot=>slotBox(slot,w,h,portrait?16:8));
+  }
+  if (count===8 && !portrait && index>=3 && index<6 && (index!==4 || doc.cards[3].type==='metric')) {
     const sequence=freeOrder[index-3];
     return free[index-3].map(([x,y,width,height,r],i)=>({x,y,w:width,h:height,r,z:sequence.indexOf(original[i].id)}));
   }
@@ -339,21 +429,26 @@ function layoutPoster() {
   const gap=clamp(12-Math.floor(count/8),5,11);
   const region={x:padding,y:padding,w:w-padding*2,h:h-padding*2};
   const output=[];
-  const rest=draft.cards.slice(1).map((_,i)=>i+1);
+  const rest=doc.cards.slice(1).map((_,i)=>i+1);
   if (!rest.length) {
     pack(output,[0],region,gap);
   } else if (index===0) {
     centerGrid(output,rest,region,gap,portrait);
-  } else if (index===2) {
-    const [banner,other]=divided(region,'h',rest.length===1?.51:portrait?.31:.38,gap);
+  } else if (index===2 || index===7) {
+    const height=index===7?.47:portrait?.31:.38;
+    const [banner,other]=divided(region,'h',rest.length===1?.51:height,gap);
     pack(output,[0],banner,gap);
     pack(output,rest,other,gap);
   } else if (index===4) {
-    metricGrid(output,rest,region,gap,portrait);
+    metricGrid(output,rest,region,gap,portrait,doc.cards);
+  } else if (index===6) {
+    productGrid(output,rest,region,gap,portrait);
+  } else if (index===8) {
+    specsGrid(output,rest,region,gap,portrait,doc.cards);
   } else {
     leftGrid(output,rest,region,gap,portrait);
   }
-  if (index===3 || index===5) styleCollage(output,index,portrait);
+  if (index===3 || index===5) styleCollage(output,index,portrait,doc.cards);
   return output;
 }
 function text(ctx, content, x, y, limit, opt) {
@@ -485,7 +580,10 @@ function paint(ctx, card, w, h, palette, i) {
     }
 
     if (card.type === 'hero') {
-      const big = clamp(Math.min(w*.24,h*.40),23,106);
+      const ideal=clamp(Math.min(w*.24,h*.40),23,106);
+      ctx.font='750 '+ideal+'px Geist, "PingFang SC", "Microsoft YaHei", sans-serif';
+      const measure=ctx.measureText(card.title || ' ').width;
+      const big=Math.max(9,Math.min(ideal,ideal*bw/Math.max(1,measure)));
       const small = clamp(Math.min(w*.07,h*.10),11,26);
       const label = clamp(Math.min(w*.06,h*.072),9,14);
       const titleY = h-mat-pad-small-big-7;
@@ -562,13 +660,13 @@ function paint(ctx, card, w, h, palette, i) {
   ctx.restore();
 }
 
-function cardBitmap(card, w, h, scale) {
+function cardBitmap(card,w,h,scale,palette=themes[activeTheme()],index=current()) {
   const canvas = document.createElement('canvas');
   canvas.width = Math.max(1,Math.ceil(w*scale));
   canvas.height = Math.max(1,Math.ceil(h*scale));
   const ctx = canvas.getContext('2d');
   ctx.scale(scale,scale);
-  paint(ctx,card,w,h,themes[activeTheme()],current());
+  paint(ctx,card,w,h,palette,index);
   return canvas;
 }
 
@@ -702,7 +800,7 @@ function renderChrome() {
   const menu=Object.entries(kinds).map(([type,kind])=>'<button type="button" data-kind="'+type+'">'+
     icon(kind.symbol)+kind.name+'</button>').join('');
   stage.innerHTML='<header class="top"><div class="brand"><div class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></div><b>拼页</b></div>'+
-    '<div class="project">个人介绍 <span class="app-version">v__APP_VERSION__</span></div><div class="top-actions"><a class="plain repo-link" href="https://github.com/holynova/pingye" aria-label="GitHub 仓库">'+icon('link')+'<span>GitHub</span></a>'+iconButton('undo','undo','撤销')+iconButton('redo','redo','重做')+
+    '<div class="project"><span class="project-name"></span> <span class="app-version">v__APP_VERSION__</span></div><div class="top-actions"><button class="plain examples-action" type="button" data-action="examples" aria-haspopup="dialog">'+icon('grid')+'样例</button><a class="plain repo-link" href="https://github.com/holynova/pingye" aria-label="GitHub 仓库">'+icon('link')+'<span>GitHub</span></a>'+iconButton('undo','undo','撤销')+iconButton('redo','redo','重做')+
     '<button class="action" data-action="export">'+icon('download')+'导出 PNG</button></div></header>'+
     '<main class="shell"><aside class="left" aria-label="卡片"><div class="rail-title"><h2>卡片 <span class="card-count"></span></h2></div>'+
     '<div class="add-wrap"><button class="panel-btn add-card" data-action="add" aria-expanded="false" aria-controls="card-types">'+icon('plus')+
@@ -722,6 +820,7 @@ function renderChrome() {
 
 function renderControls() {
   stage.dataset.ratio=draft.ratio;
+  stage.querySelector('.project-name').textContent=examplesById.get(activeDocument)?.name || '个人介绍';
   stage.querySelectorAll('[data-template]').forEach(button=>{
     button.setAttribute('aria-pressed',String(Number(button.dataset.template)===current()));
   });
@@ -801,6 +900,7 @@ function removeCard() {
 function replaceImage() {
   const input=document.createElement('input');
   const id=selected;
+  const documentId=activeDocument;
   input.type='file';
   input.accept='image/png,image/jpeg,image/webp,image/gif,image/avif';
   input.addEventListener('change',async ()=>{
@@ -818,7 +918,7 @@ function replaceImage() {
       canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
       const source=canvas.toDataURL('image/webp',.85);
       await createImage(key,source);
-      if (!cardById(id)) return;
+      if (documentId!==activeDocument || !cardById(id)) return;
       change(()=>Object.assign(cardById(id),{image:key,upload:source,focus:50,focusY:50,imageFit:'cover',imageZoom:1}));
     } finally {
       URL.revokeObjectURL(objectURL);
@@ -828,33 +928,37 @@ function replaceImage() {
   input.click();
 }
 
-function exportPoster() {
-  if (!draft.cards.length) return;
-  const {w,h}=shape();
-  const scale=2;
-  const index=current();
-  const palette=themes[activeTheme()];
+function posterCanvas(doc,scale) {
+  const {w,h}=shape(doc);
+  const index=doc.template;
+  const palette=themes[activeTheme(doc)];
   const canvas=document.createElement('canvas');
-  canvas.width=w*scale;
-  canvas.height=h*scale;
+  canvas.width=Math.round(w*scale);
+  canvas.height=Math.round(h*scale);
   const ctx=canvas.getContext('2d');
   ctx.scale(scale,scale);
   surface(ctx,palette.bg,w,h,index===3);
-  const composition=layoutPoster().map((box,i)=>({box,card:draft.cards[i]})).sort((a,b)=>a.box.z-b.box.z);
+  const composition=layoutPoster(doc).map((box,i)=>({box,card:doc.cards[i]})).sort((a,b)=>a.box.z-b.box.z);
   for (const {box,card} of composition) {
     ctx.save();
     ctx.translate(box.x,box.y);
     ctx.rotate(box.r*Math.PI/180);
     if (index===3) {
       ctx.shadowColor='#2818113d';
-      ctx.shadowBlur=24;
-      ctx.shadowOffsetX=6;
-      ctx.shadowOffsetY=10;
-      ctx.drawImage(cardBitmap(card,box.w,box.h,scale),0,0,box.w,box.h);
+      ctx.shadowBlur=12*scale;
+      ctx.shadowOffsetX=3*scale;
+      ctx.shadowOffsetY=5*scale;
+      ctx.drawImage(cardBitmap(card,box.w,box.h,scale,palette,index),0,0,box.w,box.h);
     } else paint(ctx,card,box.w,box.h,palette,index);
     ctx.restore();
   }
-  const name='拼页-'+templates[index].name+'-'+(draft.ratio==='wide'?'16x9':'9x16')+'.png';
+  return canvas;
+}
+
+function exportPoster() {
+  if (!draft.cards.length) return;
+  const canvas=posterCanvas(draft,2);
+  const name='拼页-'+(examplesById.get(activeDocument)?.name || templates[current()].name)+'-'+(draft.ratio==='wide'?'16x9':'9x16')+'.png';
   canvas.toBlob(blob=>{
     if (!blob) { notice('导出失败，请重试'); return; }
     const url=URL.createObjectURL(blob);
@@ -883,6 +987,7 @@ function perform(action) {
     case 'remove': removeCard(); break;
     case 'upload': replaceImage(); break;
     case 'crop': openCrop(); break;
+    case 'examples': openExamples(); break;
     case 'zoom-in': case 'zoom-out': case 'fit':
       zoom=action==='fit'?1:clamp(Math.round((zoom+(action==='zoom-in'?.15:-.15))*100)/100,.55,1.25);
       renderControls();
@@ -973,7 +1078,7 @@ stage.addEventListener('pointerup',event=>finishDrag(event,false));
 stage.addEventListener('pointercancel',event=>finishDrag(event,true));
 
 document.addEventListener('keydown',event=>{
-  if (cropSession) return;
+  if (cropSession || examplesDialog.open) return;
   if (event.key==='Escape' && menuOpen) { openAddMenu(false,true); return; }
   if (/^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName) || event.target.isContentEditable) return;
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase()==='z') {
@@ -982,7 +1087,7 @@ document.addEventListener('keydown',event=>{
     return;
   }
   if (event.metaKey || event.ctrlKey || event.altKey) return;
-  if (/^[1-6]$/.test(event.key)) chooseTemplate(Number(event.key)-1);
+  if (/^[1-9]$/.test(event.key)) chooseTemplate(Number(event.key)-1);
   else if (event.key==='Escape') selectCard(null);
   else if ((event.key==='Delete' || event.key==='Backspace') && event.target.closest('.tile,.row-select')) {
     event.preventDefault();
@@ -1235,8 +1340,69 @@ cropDialog.addEventListener('cancel',event=>{
 });
 new ResizeObserver(measureCrop).observe(cropStage);
 
+function openExamples() {
+  const grid=examplesDialog.querySelector('.examples-grid');
+  if (!grid.childElementCount) {
+    const items=document.createDocumentFragment();
+    for (const example of examples) {
+      const doc=exampleDraft(example);
+      const {w,h}=shape(doc);
+      const canvas=posterCanvas(doc,Math.min(540/w,304/h));
+      const button=document.createElement('button');
+      button.type='button';
+      button.className='example-card';
+      button.dataset.example=example.id;
+      const cover=document.createElement('span');
+      cover.className='example-cover';
+      cover.style.background=themes[activeTheme(doc)].bg;
+      cover.append(canvas);
+      const name=document.createElement('span');
+      name.className='example-name';
+      name.textContent=example.name;
+      button.append(cover,name);
+      items.append(button);
+    }
+    grid.append(items);
+  }
+  for (const button of examplesDialog.querySelectorAll('[data-example]')) {
+    if (button.dataset.example===activeDocument) button.setAttribute('aria-current','true');
+    else button.removeAttribute('aria-current');
+  }
+  examplesDialog.showModal();
+}
+
+function changeDocument(id) {
+  examplesDialog.close();
+  if (id===activeDocument) return;
+  finishField();
+  flushDraft();
+  openDrafts.set(activeDocument,draft);
+  activeDocument=id;
+  revisions=historyFor(id);
+  draft=openDrafts.get(id) || readDraft(id);
+  selected=null;
+  zoom=1;
+  try { localStorage.setItem(activeKey,id); } catch {}
+  refresh();
+  void restoreUploads(draft).then(()=>{
+    if (activeDocument!==id) return;
+    renderList();
+    renderPoster();
+  });
+}
+
+examplesDialog.addEventListener('click',event=>{
+  const button=event.target.closest('button');
+  if (button?.hasAttribute('data-close-examples')) examplesDialog.close();
+  if (button?.dataset.example) changeDocument(button.dataset.example);
+});
+
 async function init() {
-  await Promise.all([restoreImages(),document.fonts.load('750 24px Geist').catch(()=>{})]);
+  await Promise.all([
+    ...Object.entries(imageSources).map(([key,source])=>createImage(key,source)),
+    restoreUploads(draft),
+    document.fonts.load('750 24px Geist').catch(()=>{})
+  ]);
   renderChrome();
   refresh();
   const url=new URL(location);

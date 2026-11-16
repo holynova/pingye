@@ -1,0 +1,536 @@
+[
+  {
+    "id": "iphone",
+    "name": "iPhone 18 Pro",
+    "template": 6,
+    "ratio": "wide",
+    "cards": [
+      {
+        "id": "iphone-hero",
+        "type": "hero",
+        "title": "iPhone 18 Pro",
+        "subtitle": "产品示意图 · Apple 官方规格",
+        "detail": "2026 · 产品速览",
+        "image": "iphone-device",
+        "tone": "paper"
+      },
+      {
+        "id": "iphone-camera",
+        "type": "image",
+        "title": "可变光圈主摄",
+        "subtitle": "FUSION MAIN CAMERA",
+        "image": "iphone-camera",
+        "tone": "paper"
+      },
+      {
+        "id": "iphone-finishes",
+        "type": "image",
+        "title": "四款外观",
+        "subtitle": "黑色 · 银色 · 冰川色 · 酒红色",
+        "image": "iphone-finishes",
+        "tone": "paper"
+      },
+      {
+        "id": "iphone-chip",
+        "type": "metric",
+        "title": "A20",
+        "subtitle": "Apple 芯片",
+        "tone": "accent",
+        "unit": "Pro"
+      },
+      {
+        "id": "iphone-screen",
+        "type": "metric",
+        "title": "6.3",
+        "unit": "英寸",
+        "subtitle": "XDR 显示屏",
+        "tone": "soft"
+      },
+      {
+        "id": "iphone-refresh",
+        "type": "metric",
+        "title": "120",
+        "unit": "Hz",
+        "subtitle": "ProMotion 最高刷新率",
+        "tone": "paper"
+      },
+      {
+        "id": "iphone-main",
+        "type": "metric",
+        "title": "48",
+        "unit": "MP",
+        "subtitle": "融合式主摄",
+        "tone": "ink"
+      },
+      {
+        "id": "iphone-source",
+        "type": "link",
+        "title": "apple.com/iphone-18-pro/",
+        "subtitle": "Apple · 产品资料",
+        "tone": "paper"
+      }
+    ]
+  },
+  {
+    "id": "shanghai",
+    "name": "上海城市导览",
+    "template": 7,
+    "ratio": "phone",
+    "cards": [
+      {
+        "id": "shanghai-hero",
+        "type": "hero",
+        "title": "上海",
+        "subtitle": "沿黄浦江与梧桐街区走走",
+        "detail": "SHANGHAI CITY WALK · 图像示意",
+        "image": "shanghai-skyline",
+        "tone": "paper",
+        "focusY": 28
+      },
+      {
+        "id": "shanghai-bund",
+        "type": "image",
+        "title": "外滩",
+        "subtitle": "沿黄浦江看历史建筑",
+        "image": "shanghai-bund",
+        "tone": "paper"
+      },
+      {
+        "id": "shanghai-wukang",
+        "type": "image",
+        "title": "武康大楼",
+        "subtitle": "从武康路开始慢走",
+        "image": "shanghai-wukang",
+        "tone": "paper"
+      },
+      {
+        "id": "shanghai-days",
+        "type": "metric",
+        "title": "02",
+        "unit": "天",
+        "subtitle": "建议停留",
+        "tone": "accent"
+      },
+      {
+        "id": "shanghai-trips",
+        "type": "metric",
+        "title": "03",
+        "unit": "站",
+        "subtitle": "散步目的地",
+        "tone": "soft"
+      },
+      {
+        "id": "shanghai-route",
+        "type": "quote",
+        "title": "第 1 天 · 外滩和陆家嘴\n第 2 天 · 武康路",
+        "subtitle": "两日路线",
+        "tone": "paper"
+      },
+      {
+        "id": "shanghai-tags",
+        "type": "tags",
+        "title": "滨江、建筑、散步",
+        "subtitle": "适合这样逛",
+        "tone": "paper"
+      },
+      {
+        "id": "shanghai-source",
+        "type": "link",
+        "title": "english.shanghai.gov.cn",
+        "subtitle": "上海城市导览",
+        "tone": "ink"
+      }
+    ]
+  },
+  {
+    "id": "camera",
+    "name": "便携相机",
+    "template": 8,
+    "ratio": "wide",
+    "cards": [
+      {
+        "id": "camera-hero",
+        "type": "hero",
+        "title": "折光 X1",
+        "subtitle": "虚构产品 · 便携定焦相机",
+        "detail": "POCKET CAMERA",
+        "image": "camera-device",
+        "tone": "paper"
+      },
+      {
+        "id": "camera-dial",
+        "type": "image",
+        "title": "机械拨轮",
+        "subtitle": "TACTILE CONTROL",
+        "image": "camera-dial",
+        "tone": "paper"
+      },
+      {
+        "id": "camera-lens",
+        "type": "metric",
+        "title": "28",
+        "unit": "mm",
+        "subtitle": "等效焦距",
+        "tone": "accent"
+      },
+      {
+        "id": "camera-aperture",
+        "type": "metric",
+        "title": "2.8",
+        "unit": "ƒ",
+        "subtitle": "最大光圈",
+        "tone": "soft"
+      },
+      {
+        "id": "camera-weight",
+        "type": "metric",
+        "title": "240",
+        "unit": "g",
+        "subtitle": "机身重量",
+        "tone": "paper"
+      },
+      {
+        "id": "camera-line",
+        "type": "quote",
+        "title": "开机、取景、按下快门。",
+        "subtitle": "为随手拍设计",
+        "tone": "paper"
+      },
+      {
+        "id": "camera-uses",
+        "type": "tags",
+        "title": "旅行、街拍",
+        "subtitle": "适用场景",
+        "tone": "soft"
+      },
+      {
+        "id": "camera-edition",
+        "type": "quote",
+        "title": "石墨黑 / 银色",
+        "subtitle": "外观",
+        "tone": "ink"
+      }
+    ]
+  },
+  {
+    "id": "book",
+    "name": "书籍介绍",
+    "template": 8,
+    "ratio": "wide",
+    "themeOverrides": {
+      "8": "rose"
+    },
+    "cards": [
+      {
+        "id": "book-hero",
+        "type": "hero",
+        "title": "城市里的慢步",
+        "subtitle": "城市散文 · 虚构书籍样例",
+        "detail": "A WALK THROUGH THE CITY",
+        "image": "book-cover",
+        "tone": "paper",
+        "focus": 62
+      },
+      {
+        "id": "book-pages",
+        "type": "metric",
+        "title": "192",
+        "unit": "页",
+        "subtitle": "篇幅",
+        "tone": "accent"
+      },
+      {
+        "id": "book-chapters",
+        "type": "metric",
+        "title": "12",
+        "unit": "篇",
+        "subtitle": "城市散文",
+        "tone": "soft"
+      },
+      {
+        "id": "book-line",
+        "type": "quote",
+        "title": "同一条街，\n走慢一点就有新的发现。",
+        "subtitle": "关于这本书",
+        "tone": "paper"
+      },
+      {
+        "id": "book-themes",
+        "type": "tags",
+        "title": "街道、建筑、日常观察",
+        "subtitle": "书中主题",
+        "tone": "soft"
+      },
+      {
+        "id": "book-readers",
+        "type": "quote",
+        "title": "给喜欢散步和城市故事的人。",
+        "subtitle": "推荐读者",
+        "tone": "ink"
+      }
+    ]
+  },
+  {
+    "id": "developer",
+    "name": "独立开发者",
+    "template": 4,
+    "ratio": "wide",
+    "cards": [
+      {
+        "id": "dev-hero",
+        "type": "hero",
+        "title": "周屿",
+        "subtitle": "独立开发者",
+        "detail": "YU BUILDS",
+        "image": "dev-portrait",
+        "tone": "paper",
+        "focus": 62
+      },
+      {
+        "id": "dev-code",
+        "type": "image",
+        "title": "开源工具集",
+        "subtitle": "OPEN SOURCE",
+        "image": "dev-code",
+        "tone": "paper"
+      },
+      {
+        "id": "dev-desk",
+        "type": "image",
+        "title": "我的工作台",
+        "subtitle": "DESK NOTES",
+        "image": "dev-desk",
+        "tone": "paper"
+      },
+      {
+        "id": "dev-stars",
+        "type": "metric",
+        "title": "12k",
+        "unit": "★",
+        "subtitle": "开源项目收藏",
+        "tone": "accent"
+      },
+      {
+        "id": "dev-tools",
+        "type": "metric",
+        "title": "06",
+        "unit": "款",
+        "subtitle": "已发布工具",
+        "tone": "soft"
+      },
+      {
+        "id": "dev-line",
+        "type": "quote",
+        "title": "把重复的事，\n做成趁手的工具。",
+        "subtitle": "开发方向",
+        "tone": "paper"
+      },
+      {
+        "id": "dev-stack",
+        "type": "tags",
+        "title": "Web、开源",
+        "subtitle": "擅长",
+        "tone": "paper"
+      },
+      {
+        "id": "dev-link",
+        "type": "link",
+        "title": "yubuilds.example",
+        "subtitle": "项目与合作",
+        "tone": "ink"
+      }
+    ]
+  },
+  {
+    "id": "photographer",
+    "name": "纪实摄影",
+    "template": 1,
+    "ratio": "phone",
+    "cards": [
+      {
+        "id": "photo-hero",
+        "type": "hero",
+        "title": "沈禾",
+        "subtitle": "纪实摄影师",
+        "detail": "HE SHEN",
+        "image": "photo-portrait",
+        "tone": "paper",
+        "focus": 55
+      },
+      {
+        "id": "photo-glacier",
+        "type": "image",
+        "title": "冰川醒来",
+        "subtitle": "THE GLACIER",
+        "image": "photo-glacier",
+        "tone": "paper"
+      },
+      {
+        "id": "photo-city",
+        "type": "image",
+        "title": "雨夜街头",
+        "subtitle": "AFTER THE RAIN",
+        "image": "photo-city",
+        "tone": "paper"
+      },
+      {
+        "id": "photo-cities",
+        "type": "metric",
+        "title": "18",
+        "unit": "城",
+        "subtitle": "拍摄足迹",
+        "tone": "accent"
+      },
+      {
+        "id": "photo-gallery",
+        "type": "metric",
+        "title": "04",
+        "unit": "组",
+        "subtitle": "长期专题",
+        "tone": "soft"
+      },
+      {
+        "id": "photo-line",
+        "type": "quote",
+        "title": "在路上，\n把平常的事看久一点。",
+        "subtitle": "拍摄笔记",
+        "tone": "paper"
+      },
+      {
+        "id": "photo-link",
+        "type": "link",
+        "title": "heshen.example",
+        "subtitle": "作品集与约拍",
+        "tone": "ink"
+      }
+    ]
+  },
+  {
+    "id": "coffee",
+    "name": "咖啡工作室",
+    "template": 3,
+    "ratio": "wide",
+    "cards": [
+      {
+        "id": "coffee-hero",
+        "type": "hero",
+        "title": "晨屿",
+        "subtitle": "独立咖啡工作室",
+        "detail": "MORNING ISLE",
+        "image": "coffee-portrait",
+        "tone": "paper",
+        "focus": 45
+      },
+      {
+        "id": "coffee-brew",
+        "type": "image",
+        "title": "窗边手冲",
+        "subtitle": "SLOW BREW",
+        "image": "coffee-brew",
+        "tone": "paper"
+      },
+      {
+        "id": "coffee-beans",
+        "type": "image",
+        "title": "本季烘焙",
+        "subtitle": "SEASONAL ROAST",
+        "image": "coffee-beans",
+        "tone": "paper"
+      },
+      {
+        "id": "coffee-origins",
+        "type": "metric",
+        "title": "08",
+        "unit": "支",
+        "subtitle": "本季单品",
+        "tone": "accent"
+      },
+      {
+        "id": "coffee-tasting",
+        "type": "metric",
+        "title": "24",
+        "unit": "场",
+        "subtitle": "风味品鉴",
+        "tone": "soft"
+      },
+      {
+        "id": "coffee-line",
+        "type": "quote",
+        "title": "留一段时间，\n认真喝杯咖啡。",
+        "subtitle": "我们喜欢的事",
+        "tone": "paper"
+      },
+      {
+        "id": "coffee-menu",
+        "type": "tags",
+        "title": "手冲、烘焙、品鉴",
+        "subtitle": "店里可以做什么",
+        "tone": "paper"
+      },
+      {
+        "id": "coffee-link",
+        "type": "link",
+        "title": "morning-isle.example",
+        "subtitle": "菜单与预约",
+        "tone": "ink"
+      }
+    ]
+  },
+  {
+    "id": "year",
+    "name": "年度总结",
+    "template": 2,
+    "ratio": "wide",
+    "themeOverrides": {
+      "2": "rose"
+    },
+    "cards": [
+      {
+        "id": "year-hero",
+        "type": "hero",
+        "title": "2025",
+        "subtitle": "把想法做出来",
+        "detail": "YEAR IN REVIEW",
+        "tone": "accent"
+      },
+      {
+        "id": "year-projects",
+        "type": "metric",
+        "title": "12",
+        "unit": "个",
+        "subtitle": "完成的项目",
+        "tone": "soft"
+      },
+      {
+        "id": "year-essays",
+        "type": "metric",
+        "title": "36",
+        "unit": "篇",
+        "subtitle": "公开写作",
+        "tone": "paper"
+      },
+      {
+        "id": "year-days",
+        "type": "metric",
+        "title": "128",
+        "unit": "天",
+        "subtitle": "坚持记录",
+        "tone": "accent"
+      },
+      {
+        "id": "year-moments",
+        "type": "tags",
+        "title": "第一次演讲、第一款工具、第一次看海",
+        "subtitle": "记得的三个第一次",
+        "tone": "soft"
+      },
+      {
+        "id": "year-next",
+        "type": "quote",
+        "title": "下一年，\n多做一些愿意分享的事。",
+        "subtitle": "留给明年的话",
+        "tone": "ink"
+      }
+    ]
+  }
+]
