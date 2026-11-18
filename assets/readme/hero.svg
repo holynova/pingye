@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="拼页 Pingye — 把照片、作品和成绩拼成一张个人 Bento 海报：九种版式、八套样例">
+  <title>拼页 Pingye</title>
+  <desc>个人 Bento 海报编辑器：照片、作品和成绩拼成一张海报，九种版式共用一份稿件。</desc>
+
+  <rect width="1200" height="420" rx="20" fill="#FBF9F2"/>
+  <rect width="1200" height="420" rx="20" fill="none" stroke="#E5DDD2" stroke-width="1.5"/>
+
+  <!-- logo mark -->
+  <g transform="rotate(-6 96 96)">
+    <rect x="64" y="64" width="64" height="64" rx="16" fill="#BE4126"/>
+    <g fill="#FBF9F2">
+      <rect x="78" y="78" width="10" height="36" rx="3"/>
+      <rect x="92" y="78" width="22" height="16" rx="3"/>
+      <rect x="92" y="98" width="9" height="16" rx="3"/>
+      <rect x="105" y="98" width="9" height="16" rx="3"/>
+    </g>
+  </g>
+
+  <!-- left copy -->
+  <text x="148" y="112" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="22" font-weight="600" fill="#BE4126">个人 BENTO 海报编辑器</text>
+  <text x="62" y="196" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="66" font-weight="700" fill="#2B2320">拼页</text>
+  <text x="64" y="236" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="24" font-weight="600" letter-spacing="8" fill="#6B5F54">PINGYE</text>
+  <text x="64" y="288" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="22" fill="#4A423A">把照片、作品和成绩，拼成一张个人海报</text>
+  <text x="64" y="322" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="20" fill="#6B5F54">换一套版式，继续编辑同一份内容</text>
+
+  <!-- badges -->
+  <g font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="19" font-weight="600">
+    <rect x="64" y="350" width="96" height="36" rx="18" fill="#BE4126"/>
+    <text x="112" y="374" text-anchor="middle" fill="#FFFFFF">9 版式</text>
+    <rect x="172" y="350" width="96" height="36" rx="18" fill="#FFFFFF" stroke="#D8CFC2" stroke-width="1.5"/>
+    <text x="220" y="374" text-anchor="middle" fill="#4A423A">8 样例</text>
+    <rect x="280" y="350" width="96" height="36" rx="18" fill="#FFFFFF" stroke="#D8CFC2" stroke-width="1.5"/>
+    <text x="328" y="374" text-anchor="middle" fill="#4A423A">6 配色</text>
+    <rect x="388" y="350" width="150" height="36" rx="18" fill="#FFFFFF" stroke="#D8CFC2" stroke-width="1.5"/>
+    <text x="463" y="374" text-anchor="middle" fill="#4A423A">导出 2K PNG</text>
+  </g>
+
+  <!-- right: mini bento poster -->
+  <g id="poster">
+    <rect x="660" y="48" width="476" height="324" rx="16" fill="#FFFFFF"/>
+    <rect x="660" y="48" width="476" height="324" rx="16" fill="none" stroke="#E5DDD2" stroke-width="1.5"/>
+    <g id="hero-block">
+      <rect x="684" y="72" width="220" height="180" rx="12" fill="#BE4126"/>
+      <text x="706" y="212" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="34" font-weight="700" fill="#FFFFFF">林岑</text>
+      <text x="706" y="240" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="18" fill="#FFFFFF">独立产品设计师</text>
+    </g>
+    <g id="metric-block">
+      <rect x="920" y="72" width="192" height="84" rx="12" fill="#5A7A5A"/>
+      <text x="940" y="120" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="36" font-weight="700" fill="#FFFFFF">12 <tspan font-size="20">件</tspan></text>
+      <text x="940" y="144" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="18" fill="#FFFFFF">量产作品</text>
+    </g>
+    <g id="img-block">
+      <rect x="920" y="172" width="92" height="80" rx="12" fill="#8A9A7B"/>
+      <circle cx="966" cy="202" r="14" fill="#F3EDE2"/>
+      <path d="M 936 236 L 958 214 L 972 228 L 984 216 L 996 236 Z" fill="#5A7A5A"/>
+    </g>
+    <g id="num-block">
+      <rect x="1020" y="172" width="92" height="80" rx="12" fill="#F3EDE2"/>
+      <text x="1066" y="212" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="32" font-weight="700" fill="#2B2320" text-anchor="middle">08</text>
+      <text x="1066" y="238" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="17" fill="#6B5F54" text-anchor="middle">城 · 展览</text>
+    </g>
+    <g id="quote-block">
+      <rect x="684" y="268" width="220" height="80" rx="12" fill="#F3EDE2"/>
+      <text x="706" y="300" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="20" font-weight="700" fill="#2B2320">让日常用品，</text>
+      <text x="706" y="328" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="20" font-weight="700" fill="#2B2320">多一点温度。</text>
+    </g>
+    <g id="link-block">
+      <rect x="920" y="268" width="192" height="80" rx="12" fill="#2B2320"/>
+      <text x="940" y="300" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="17" fill="#B8A99C">作品集与合作</text>
+      <text x="940" y="330" font-family="-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="20" font-weight="700" fill="#FFFFFF">lincen.example</text>
+    </g>
+  </g>
+</svg>
